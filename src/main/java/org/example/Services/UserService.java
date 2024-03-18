@@ -12,44 +12,45 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    UserRepository repo;
+    private UserRepository repository;
 
-    //Logica para devolver todos los usuarios
-    public List<User> getAllUsers() {
-        List<User> users = repo.findAll();
-        return repo.findAll();
+    //Logica que devuelve todos los clientes
+    public List<User> getAllUsers(){
+        List<User> clientes = repository.findAll();
+        return clientes;
     }
 
-    //Logica para crear o actualizar a un usuario
-    public User createOrUpdateUser(User user) {
-        if (user.getCodigoCliente() > 0) { //update
-            Optional<User> u = repo.findById(user.getCodigoCliente());
-            if (u.isPresent()) {
-                user = u.get();
-                user.setDni(user.getDni());
-                user.setFechaAlta(user.getFechaAlta());
-                user.setRazonSocial(user.getRazonSocial());
-                return repo.save(user);
-            } else {
-                return repo.save(user);
-            }
-        }
-
-     }
-
-
-
-        //Logica para borrar a un usuario
-        public void deleteUser ( int CodigoCliente){
-            Optional<User> u = repo.findById(CodigoCliente);
-            if (u.isPresent()) {
-                repo.delete(u.get());
-            } else {
-                throw new RuntimeException("User not found");
-            }
-
-        }
-
+    //Logica que devuelve un cliente por CodigoCliente
+    public Optional<User> getUser(int CodigoCliente){
+        Optional<User> cliente = repository.findById(CodigoCliente);
+        return cliente;
     }
 
+    //Logica para crear o actualizar a un cliente
+    public User createOrUpdateUser(User user){
+        if(user.getCodigoCliente() == 0){
+            return repository.save(user);
+        }else{
+            Optional<User> query = repository.findById(user.getCodigoCliente());
+            if(query.isPresent()){
+                User newUser = query.get();
+                newUser.setDni(user.getDni());
+                newUser.setFechaAlta(user.getFechaAlta());
+                newUser.setRazonSocial(user.getRazonSocial());
+                return repository.save(newUser);
+            }else{
+                return repository.save(user);
+            }
+        }
+    }
+
+    //Logica para borrar a un cliente
+    public User deleteUser(int CodigoCliente){
+        Optional<User> user = repository.findById(CodigoCliente);
+        if(user.isPresent()){
+            repository.deleteById(CodigoCliente);
+        }
+        return user.get();
+    }
 }
+
