@@ -1,15 +1,24 @@
 package org.example.models;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "Clientes")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int CodigoCliente;
 
+    @Column(name = "CifDni")
     private String Dni;
 
+    @Column(name = "FechaAlta")
     private  Date FechaAlta;
 
+    @Column(name = "RazonSocial")
     private String RazonSocial;
 
     public User() {
