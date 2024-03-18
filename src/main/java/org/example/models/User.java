@@ -63,4 +63,14 @@ public class User {
     public void setRazonSocial(String razonSocial) {
         RazonSocial = razonSocial;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "CodigoCliente=" + CodigoCliente +
+                ", Dni='" + Dni + '\'' +
+                ", FechaAlta=" + FechaAlta +
+                ", RazonSocial='" + RazonSocial + '\'' +
+                '}';
+    }
 }
