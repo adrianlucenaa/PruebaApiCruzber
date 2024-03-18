@@ -15,6 +15,7 @@ public class User {
     public User() {
     }
 
+
     public User(int codigoCliente, String dni, Date fechaAlta, String razonSocial) {
         CodigoCliente = codigoCliente;
         Dni = dni;
