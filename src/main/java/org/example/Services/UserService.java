@@ -21,28 +21,53 @@ public class UserService {
     }
 
     //Logica que devuelve un cliente por CodigoCliente
-    public Optional<User> getUser(int CodigoCliente){
-        Optional<User> cliente = repository.findById(CodigoCliente);
-        return cliente;
+    public Optional<User> getUser(int CodigoCliente) {
+        Optional<User> user = repository.findById(CodigoCliente);
+        if (user.isPresent()) {
+            return user;
+        } else {
+            throw new org.example.exception.RecordNotFoundException("No se encontro el cliente");
+        }
     }
 
     //Logica para crear o actualizar a un cliente
     public User createOrUpdateUser(User user){
-        if(user.getCodigoCliente() == 0){
-            return repository.save(user);
-        }else{
-            Optional<User> query = repository.findById(user.getCodigoCliente());
-            if(query.isPresent()){
-                User newUser = query.get();
-                newUser.setDni(user.getDni());
-                newUser.setFechaAlta(user.getFechaAlta());
-                newUser.setRazonSocial(user.getRazonSocial());
-                return repository.save(newUser);
-            }else{
-                return repository.save(user);
+        if (user.getCodigoCliente() > 0) {
+            Optional<User> result = repository.findById(user.getCodigoCliente());
+            if (result.isPresent()) {
+                User currentUser = result.get();
+                currentUser.setDni(user.getDni());
+                currentUser.setFechaAlta(user.getFechaAlta());
+                currentUser.setRazonSocial(user.getRazonSocial());
+                return repository.save(currentUser);
+            } else {
+                throw new org.example.exception.RecordNotFoundException("No se encontro el cliente");
             }
+        } else {
+            return repository.save(user);
         }
     }
+
+    /*
+    // Lógica para crear o actualizar un cliente
+    public User createOrUpdateUser(User user){
+        if (user.getCodigoCliente() != null && user.getCodigoCliente() > 0) {
+            Optional<User> result = repository.findById(user.getCodigoCliente());
+            if (result.isPresent()) {
+                User currentUser = result.get();
+                currentUser.setDni(user.getDni());
+                currentUser.setFechaAlta(user.getFechaAlta());
+                currentUser.setRazonSocial(user.getRazonSocial());
+                return repository.save(currentUser); // Actualizar el usuario existente
+            } else {
+                throw new org.example.exception.RecordNotFoundException("No se encontró el cliente con el código: " + user.getCodigoCliente());
+            }
+        } else {
+            return repository.save(user); // Crear un nuevo usuario con el código proporcionado por el usuario
+        }
+    }
+
+     */
 
     //Logica para borrar a un cliente
     public User deleteUser(int CodigoCliente){
