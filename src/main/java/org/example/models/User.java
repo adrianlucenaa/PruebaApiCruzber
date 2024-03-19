@@ -1,5 +1,6 @@
 package org.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "CodigoCliente")
     private int CodigoCliente;
 
     @Column(name = "CifDni")
@@ -25,8 +27,8 @@ public class User {
     }
 
 
-    public User(int codigoCliente, String dni, Date fechaAlta, String razonSocial) {
-        CodigoCliente = codigoCliente;
+    public User(int CodigoCliente, String dni, Date fechaAlta, String razonSocial) {
+        CodigoCliente = CodigoCliente;
         Dni = dni;
         FechaAlta = fechaAlta;
         RazonSocial = razonSocial;
@@ -36,8 +38,8 @@ public class User {
         return CodigoCliente;
     }
 
-    public void setCodigoCliente(int codigoCliente) {
-        CodigoCliente = codigoCliente;
+    public void setCodigoCliente(int CodigoCliente) {
+        CodigoCliente = CodigoCliente;
     }
 
     public String getDni() {
